@@ -1,0 +1,21 @@
+<h1>Products</h1>
+
+<div *ngIf="(products$ | async) as products; else loading" 
+     style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:1rem;">
+  <article *ngFor="let p of products" style="border:1px solid #ddd; border-radius:8px; overflow:hidden;">
+    <img [src]="p.imageUrl" [alt]="p.name" style="width:100%; aspect-ratio: 5/3; object-fit: cover;">
+    <div style="padding: 0.75rem;">
+      <h3 style="margin:0 0 0.5rem;">{{ p.name }}</h3>
+      <p style="margin:0 0 0.75rem;">${{ p.price }}</p>
+      <button type="button" (click)="add(p)">Add to cart</button>
+    </div>
+  </article>
+</div>
+
+<ng-template #loading>
+  <p>Loading products…</p>
+</ng-template>
+
+<p style="margin-top:1rem;">
+  <a routerLink="/checkout">Go to Checkout →</a>
+</p>

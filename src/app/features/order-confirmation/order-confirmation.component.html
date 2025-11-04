@@ -1,0 +1,41 @@
+<section style="max-width:800px; margin:2rem auto; padding:1rem;">
+  <h1>Order Confirmation</h1>
+
+  <ng-container *ngIf="total !== null; else missing">
+    <p>Thanks, <strong>{{ customerName }}</strong>! 🎉</p>
+    <p>Order ID: <strong>{{ orderId }}</strong></p>
+    <p>We’ll send a receipt to <strong>{{ email }}</strong>.</p>
+
+    <h3 style="margin-top:1rem;">Items</h3>
+    <table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th style="text-align:left;">Product</th>
+          <th>Qty</th>
+          <th>Unit</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let it of items">
+          <td>{{ it.name }}</td>
+          <td style="text-align:center;">{{ it.quantity }}</td>
+          <td>${{ it.unitPrice }}</td>
+          <td>${{ it.subtotal }}</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:right;"><strong>Total:</strong></td>
+          <td><strong>${{ total }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:1rem;">
+      <a routerLink="/products">Continue shopping →</a>
+    </p>
+  </ng-container>
+
+  <ng-template #missing>
+    <p>No order details found. <a routerLink="/products">Go to products</a></p>
+  </ng-template>
+</section>

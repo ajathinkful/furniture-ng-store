@@ -1,0 +1,4 @@
+- signal<CartItem[]>([]) creates a reactive value that holds the cart array.
+Reading it: call this.items() (signals are functions you invoke to read).
+Writing it: call this.items.set(newValue).
+?????(Signals use referential equality by default.)????

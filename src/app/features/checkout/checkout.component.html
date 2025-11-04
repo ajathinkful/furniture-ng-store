@@ -1,0 +1,52 @@
+<h1>Checkout</h1>
+
+<section *ngIf="cart.items().length > 0; else empty">
+  <table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="text-align:left;">Product</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let it of cart.items()">
+        <td>{{ it.product.name }}</td>
+        <td>
+          <input type="number" min="1" [value]="it.quantity"
+                 (input)="cart.updateQty(it.product.id, $any($event.target).valueAsNumber)" style="width:4rem;">
+        </td>
+        <td>${{ it.product.price }}</td>
+        <td>${{ it.product.price * it.quantity }}</td>
+        <td><button type="button" (click)="cart.remove(it.product.id)">Remove</button></td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align:right;"><strong>Total:</strong></td>
+        <td colspan="2"><strong>${{ cart.total() }}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" style="margin-top:1rem;">
+    <div style="margin-bottom:0.5rem;">
+      <label>Name</label><br>
+      <input type="text" formControlName="customerName">
+    </div>
+    <div style="margin-bottom:0.5rem;">
+      <label>Email</label><br>
+      <input type="email" formControlName="email">
+    </div>
+
+    <button type="submit" [disabled]="form.invalid || submitting()">Place Order</button>
+  </form>
+
+  <p *ngIf="orderId()" style="margin-top:1rem;">
+    ✅ Order placed! ID: <strong>{{ orderId() }}</strong>
+  </p>
+</section>
+
+<ng-template #empty>
+  <p>Your cart is empty. <a routerLink="/products">Go shopping →</a></p>
+</ng-template>
